@@ -10,6 +10,11 @@ const { MongoClient, ObjectId } = require('mongodb');
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || (process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1');
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/CampusLostFound';
+if (!/^mongodb(\+srv)?:\/\/[^<>\s]+$/.test(MONGODB_URI)) {
+  throw new Error(
+    'MONGODB_URI is missing or still contains placeholder text. Set it to your MongoDB Atlas connection string (mongodb+srv://user:password@cluster.../CampusLostFound).'
+  );
+}
 const DATABASE_NAME = new URL(MONGODB_URI).pathname.slice(1) || 'CampusLostFound';
 const COLLECTION_NAMES = ['students', 'lostItems', 'foundItems', 'claims'];
 const SESSION_COLLECTION_NAME = 'sessions';
